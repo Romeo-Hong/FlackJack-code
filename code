@@ -1,0 +1,193 @@
+import random
+
+begin = input("Play? (Y/N) : ")
+begin = begin.lower()
+
+if begin == "y":
+    hand = 0
+    dealer = 0
+
+    starting_card = random.randint(1, 13)
+    starting_card2 = random.randint(1, 13)
+    starting_card3 = random.randint(1, 13)
+    starting_card4 = random.randint(1, 13)
+
+    if 2 <= starting_card <= 10:
+        hand += starting_card
+    elif starting_card == 11:
+        hand += 10
+        starting_card = "J"
+    elif starting_card == 12:
+        hand += 10
+        starting_card = "Q"
+    elif starting_card == 13:
+        hand += 10
+        starting_card = "K"
+    elif starting_card == 1:
+        starting_card = "A"
+
+    if 2 <= starting_card2 <= 10:
+        hand += starting_card2
+    elif starting_card2 == 11:
+        hand += 10
+        starting_card2 = "J"
+    elif starting_card2 == 12:
+        hand += 10
+        starting_card2 = "Q"
+    elif starting_card2 == 13:
+        hand += 10
+        starting_card2 = "K"
+    elif starting_card2 == 1:
+        starting_card2 = "A"
+
+    if 2 <= starting_card3 <= 10:
+        dealer += starting_card3
+    elif starting_card3 == 11:
+        dealer += 10
+        starting_card3 = "J"
+    elif starting_card3 == 12:
+        dealer += 10
+        starting_card3 = "Q"
+    elif starting_card3 == 13:
+        dealer += 10
+        starting_card3 = "K"
+    elif starting_card3 == 1:
+        choice = 0
+        if dealer + 11 <= 21:
+            choice = 11
+        elif dealer + 11 > 21:
+            choice = 1
+        dealer = dealer + choice
+        starting_card3 = "A"
+
+    if 2 <= starting_card4 <= 10:
+        dealer += starting_card4
+    elif starting_card4 == 11:
+        dealer += 10
+        starting_card4 = "J"
+    elif starting_card4 == 12:
+        dealer += 10
+        starting_card4 = "Q"
+    elif starting_card4 == 13:
+        dealer += 10
+        starting_card4 = "K"
+    elif starting_card4 == 1:
+        choice = 0
+        if dealer + 11 <= 21:
+            choice = 11
+        elif dealer + 11 > 21:
+            choice = 1
+        dealer = dealer + choice
+        starting_card4 = "A"
+
+    your_cards = (starting_card, starting_card2)
+    print("Your cards:", your_cards)
+    if starting_card == "A":
+        hand = hand + int(input("Is your A 11 or 1? : "))
+    if starting_card2 == "A":
+        hand = hand + int(input("Is your A 11 or 1? : "))
+    print("Your Total :",hand)
+
+    dealers_visible_total = 0
+    if starting_card4 == "J":
+        myst = 10
+    elif starting_card4 == "Q":
+        myst = 10
+    elif starting_card4 == "K":
+        myst = 10
+    elif 1 < starting_card4 <= 10:
+        myst = starting_card4
+    dealers_visible_total = dealers_visible_total + myst
+    dealer_cards = ("?", starting_card4)
+    print("Dealer's cards:", dealer_cards)
+    print("Dealer's Total:", dealers_visible_total)
+
+else:
+    print(" ")
+
+inp = input("Draw a card? (Y/N) : ")
+inp = inp.lower()
+
+while inp == "y":
+    c = random.randint(1, 13)
+    if 2 <= c <= 10:
+        if c%2 == 0:
+            c = c*2
+        hand += c
+    elif c == 11:
+        hand += 10
+        hand = hand / 2
+        c = "J"
+    elif c == 12:
+        hand += 10
+        hand = hand / 2
+        c = "Q"
+    elif c == 13:
+        hand += 10
+        hand = hand / 2
+        c = "K"
+    elif c == 1:
+        hand = hand + int(input("Is your A 11 or 1? (11/1) : "))
+        c = "A"
+
+    c = (c, )
+    your_cards = your_cards + c
+    print("Your cards:", your_cards)
+    print("Your Total :", hand)
+    if hand > 21:
+        print("BUST")
+        break
+
+    inp = input("Draw a card? (Y/N) : ")
+    inp = inp.lower()
+
+if inp.lower() == "n":
+    if len(your_cards)%2 == 0:
+        iny = input("Add 1 to your hand? (Y/N) : ")
+        iny =iny.lower()
+        if iny == "y":
+            hand = hand + 1
+            print("Your New Total :", hand)
+        else:
+            pass
+    while dealer < 17:
+        d = random.randint(1, 13)
+        if 2 <= d <= 10:
+            if d%2 == 0:
+                d = d*2
+            dealer += d
+        elif d == 11:
+            dealer += 10
+            dealer = dealer / 2
+            d = "J"
+        elif d == 12:
+            dealer += 10
+            dealer = dealer / 2
+            d = "Q"
+        elif d == 13:
+            dealer += 10
+            dealer = dealer / 2
+            d = "K"
+        elif d == 1:
+            choice = 0
+            if dealer + 11 <= 21:
+                choice = 11
+            elif dealer + 11 > 21:
+                choice = 1
+            dealer = dealer + choice
+            d = "A"
+        if dealer > 21:
+            print("You Win")
+            break        
+
+    f = (d, )
+    dealer_cards = dealer_cards + f
+
+    if dealer >= 17:
+        print("Dealer's cards:", tuple(dealer_cards), "? =", starting_card3)
+        print("Dealer's Total:", dealer)
+    if 21 >= dealer > hand:
+        print("You Lose")
+    elif hand > dealer:
+        print("You Win")
+        
